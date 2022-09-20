@@ -31,7 +31,7 @@ export function Home() {
         />
         <Heading
           title="Encontre seu duo!"
-          subTitle="Selecione o game que deseja jogar..."
+          subTitle="Selecione o game que deseja jogar"
         />
 
         <FlatList
