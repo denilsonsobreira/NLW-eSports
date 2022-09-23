@@ -16,39 +16,37 @@ interface Game {
     ads: number
   }
 }
+const animation = { duration: 10000, easing: (t: number) => t }
 
 function App() {
   const [games, setGames] = useState<Game[]>([])
-  const animation = { duration: 10000, easing: (t: number) => t }
-  const [ref,slider] = useKeenSlider<HTMLDivElement>({
+  const [optionsSlider, setOptionsSlider] = useState({})
+  const [ref, slider] = useKeenSlider<HTMLDivElement>({
     loop: true,
-    
-    // origin:'auto',
     slides: {
       perView: 'auto',
       spacing: 10,
     },
     renderMode: "performance",
-    created(s) {
-      s.moveToIdx(5, true, animation)
-    },
-    updated(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
-    },
-    animationEnded(s) {
-      s.moveToIdx(s.track.details.abs + 5, true, animation)
-    },
+    // created(s) {
+    //   s.moveToIdx(5, true, animation)
+    // },
+    // updated(s) {
+    //   s.moveToIdx(s.track.details.abs + 5, true, animation)
+    // },
+    // animationEnded(s) {
+    //   s.moveToIdx(s.track.details.abs + 5, true, animation)
+    // },
   })
-  
+
   useEffect(() => {
     fetch('http://localhost:3333/games')
       .then(response => response.json())
       .then(data => {
         setGames(data)
-        // setOptionsSlide()
+        // setOptionsSlider()
       })
   }, [])
-
 
   return (
     <div className="max-w-[1344px] mx-auto flex flex-col items-center my-20">
@@ -61,7 +59,7 @@ function App() {
       <div ref={ref} className="grid grid-cols-6 mt-16 keen-slider max-w-6xl">
         {games.map(game => {
           return (
-            <div className="keen-slider__slide relative rounded-lg overflow-hidden"> 
+            <div key={game.id} className="keen-slider__slide relative rounded-lg overflow-hidden">
               <GameBanner key={game.id} bannerUrl={game.bannerUrl} title={game.title} adsCount={game._count.ads} />
             </div>
           )
